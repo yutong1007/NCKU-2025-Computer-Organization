@@ -1,0 +1,31 @@
+"addi t0, t0, 1\n\t"
+"fcvt.d.w f0, t0\n\t"
+"addi %[add_cnt], %[add_cnt], 1\n\t"
+"addi %[others_cnt], %[others_cnt], 1\n\t"
+
+"for:\n\t"
+"beq %[arr_size], x0, for_end\n\t"
+"fld f1, 0(%[h])\n\t"
+"fld f2, 0(%[x])\n\t"
+"addi %[others_cnt], %[others_cnt], 1\n\t"
+"addi %[dlw_cnt], %[dlw_cnt], 2\n\t"
+
+"fmul.d f3, f1, f2\n\t"
+"fmul.d f0, f0, f3\n\t"
+"addi %[dmul_cnt], %[dmul_cnt], 2\n\t"
+
+"addi %[h], %[h], 8\n\t"
+"addi %[x], %[x], 8\n\t"
+"addi %[arr_size], %[arr_size], -1\n\t"
+"addi %[add_cnt], %[add_cnt], 3\n\t"
+
+"addi %[others_cnt], %[others_cnt], 1\n\t"
+"jal x0, for\n\t"
+
+"for_end:\n\t"
+"addi t0, x0, 0\n\t"
+"fcvt.d.w f1, t0\n\t"
+"fadd.d %[result], f0, f1\n\t"
+"addi %[others_cnt], %[others_cnt], 2\n\t"
+"addi %[add_cnt], %[add_cnt], 1\n\t"
+"addi %[dadd_cnt], %[dadd_cnt], 1\n\t"
